@@ -1,0 +1,3 @@
+class SemanticSimilarities:
+    def __init__(self) -> None:
+        ...

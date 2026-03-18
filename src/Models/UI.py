@@ -1,11 +1,14 @@
 class UI:
     """
-    Classe utilizzata per la creazione dell'interfaccia utente.
+    Classe utilizzata per la gestione dell'interfaccia utente.
     """
     def __init__(self) -> None:
         ...
     
     def CreateUI() -> None:
+        """
+        Funzione usata per la creazione dell'interfaccia.
+        """
         ...
 
 if __name__ == "__main__":

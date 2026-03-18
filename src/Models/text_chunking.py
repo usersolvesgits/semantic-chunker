@@ -1,0 +1,3 @@
+class TextChunking:
+    def __init__(self) -> None:
+        ...
