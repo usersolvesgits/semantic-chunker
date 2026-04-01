@@ -1,0 +1,2 @@
+hugging face -> transformers
+embedding -> https://www.youtube.com/watch?v=-_c5oRVbDBU
