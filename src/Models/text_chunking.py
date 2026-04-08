@@ -3,7 +3,7 @@ from transformers import AutoTokenizer as AT
 
 class TextChunking:
     @staticmethod
-    def chunck_text(testo, max_tokens=100, overlap=20) -> List[str]:
+    def Chunck_Text(testo, max_tokens=100, overlap=20) -> List[str]:
         tokenizer = AT.from_pretrained("bert-base-uncased")
         tokens = tokenizer.encode(testo, add_special_tokens=False)
 
