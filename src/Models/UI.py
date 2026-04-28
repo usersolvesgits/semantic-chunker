@@ -4,8 +4,8 @@ class UI:
     """
     def __init__(self) -> None:
         ...
-    
-    def CreateUI() -> None:
+
+    def CreateUI(self) -> None:
         """
         Funzione usata per la creazione dell'interfaccia.
         """
