@@ -42,21 +42,21 @@ def main() -> None:
     fileText: str = ""
     match (userInput):
         case "1":
-            Read_FileText(textDir, ARMED_CONFLICTS_TXT)
+            fileText = Read_FileText(textDir, ARMED_CONFLICTS_TXT)
 
         case "2":
-            Read_FileText(textDir, BODY_SHAMING_TXT)
+            fileText = Read_FileText(textDir, BODY_SHAMING_TXT)
 
         case "3":
-            Read_FileText(textDir, RACISM_TXT)
+            fileText = Read_FileText(textDir, RACISM_TXT)
 
         case _:
             print("Opzione non supportata, riprovare!")
             main()
 
-    text_chunker: TextChunking = TextChunking()
+    fileChunkato: List[str] = []
+    fileChunkato = TextChunking.Chunck_Text(fileText)
 
-    text_chunker.Chunck_Text(fileText)
 
 if __name__ == "__main__":
     main()
