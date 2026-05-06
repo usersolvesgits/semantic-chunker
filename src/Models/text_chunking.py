@@ -3,13 +3,12 @@ from typing import List
 class TextChunking:
     @staticmethod
     def Chunck_Text(testo: str, max_tokens: int = 100, overlap: int = 20) -> List[str]:
-
-        chunks = []
-        startIndex = 0
+        chunks: List[str] = []
+        startIndex: int = 0
 
         while startIndex <  len(testo):
-            endIndex = startIndex + max_tokens
-            chunk = testo[startIndex:endIndex]
+            endIndex: int = startIndex + max_tokens
+            chunk: str = testo[startIndex:endIndex]
 
             chunks.append(chunk)
 

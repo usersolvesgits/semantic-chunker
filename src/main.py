@@ -1,7 +1,7 @@
 import os
-from typing import Final
-from typing import List
+from typing import Final, List
 from Models.text_chunking import TextChunking
+from Models.embedding import Embedding
 
 def Read_FileText(dirPath: str, fileName: str) -> str:
     fileText: str = ""
@@ -12,6 +12,14 @@ def Read_FileText(dirPath: str, fileName: str) -> str:
                 with open(filePath, "r") as f:
                     fileText = f.read()
     return fileText
+
+def GetRisultatoChunking(fileChunkato: List[str]) -> None:
+    inputUtente: str = ""
+
+    print("Vuoi mostrare il risultato del chunking? (Y/n)")
+    inputUtente = input("> ").lower()
+    if inputUtente == "y":
+        print(fileChunkato)
 
 def main() -> None:
     dir = os.path.dirname(os.path.abspath(__file__))
@@ -40,7 +48,7 @@ def main() -> None:
 
     userInput = input("> ")
     fileText: str = ""
-    match (userInput):
+    match (userInput):  
         case "1":
             fileText = Read_FileText(textDir, ARMED_CONFLICTS_TXT)
 
@@ -55,8 +63,13 @@ def main() -> None:
             main()
 
     fileChunkato: List[str] = []
-    fileChunkato = TextChunking.Chunck_Text(fileText)
+    fileChunkato = TextChunking.Chunck_Text(fileText, overlap=15)
 
+    GetRisultatoChunking(fileChunkato)
 
+    # embedder: Embedding = Embedding()
+    # embedder.Embedda(fileChunkato)
+    # print()
+ 
 if __name__ == "__main__":
-    main()
+    main()  
