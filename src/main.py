@@ -2,6 +2,7 @@ import os
 from typing import Final, List
 from Models.text_chunking import TextChunking
 from Models.embedding import Embedding
+from Models.semantic_similarities import SemanticSimilarities
 
 def Read_FileText(dirPath: str, fileName: str) -> str:
     fileText: str = ""
@@ -63,13 +64,30 @@ def main() -> None:
             main()
 
     fileChunkato: List[str] = []
-    fileChunkato = TextChunking.Chunck_Text(fileText, overlap=15)
+    fileChunkato = TextChunking.ChunkaTesto(fileText, overlap=15)
 
     GetRisultatoChunking(fileChunkato)
+    
+    embedder: Embedding = Embedding()
+    textEmbedding = embedder.Embedda(fileChunkato)
+  
+    
+    print("\n\n\n--- Ricerca Semantica ---")
+    query_utente = input("Inserisci una frase per cercare nei chunk: ")
+    userEmb = embedder.Embedda(query_utente)
 
-    # embedder: Embedding = Embedding()
-    # embedder.Embedda(fileChunkato)
-    # print()
- 
+    first=True
+    maxSimiliraty=0
+    chunkSimilarity=""
+    for i in range(len(textEmbedding)) :
+        
+        similarity = SemanticSimilarities.Semanta(userEmb,textEmbedding[i])
+        if first or similarity>maxSimiliraty:
+            maxSimiliraty=similarity
+            chunkSimilarity=fileChunkato[i]
+            first = False
+    
+    print(chunkSimilarity)
+    
 if __name__ == "__main__":
     main()  

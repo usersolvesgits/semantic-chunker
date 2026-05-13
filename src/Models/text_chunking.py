@@ -2,7 +2,7 @@ from typing import List
 
 class TextChunking:
     @staticmethod
-    def Chunck_Text(testo: str, max_tokens: int = 100, overlap: int = 20) -> List[str]:
+    def ChunkaTesto(testo: str, max_tokens: int = 100, overlap: int = 20) -> List[str]:
         chunks: List[str] = []
         startIndex: int = 0
 
