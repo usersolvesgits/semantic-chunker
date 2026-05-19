@@ -1,5 +1,7 @@
 import os
 from typing import Final, List
+import torch
+from torch import Tensor
 from Models.text_chunking import TextChunking
 from Models.embedding import Embedding
 from Models.semantic_similarities import SemanticSimilarities
@@ -21,6 +23,13 @@ def GetRisultatoChunking(fileChunkato: List[str]) -> None:
     inputUtente = input("> ").lower()
     if inputUtente == "y":
         print(fileChunkato)
+def GetRisultatoSemantico(chunkSimile: str) -> None:
+    inputUtente: str = ""
+
+    print("Vuoi mostrare il chunk più simile al tuo messaggio? (Y/n)")
+    inputUtente = input("> ").lower()
+    if inputUtente == "y":
+        print(chunkSimile)
 
 def main() -> None:
     dir = os.path.dirname(os.path.abspath(__file__))
@@ -49,7 +58,7 @@ def main() -> None:
 
     userInput = input("> ")
     fileText: str = ""
-    match (userInput):  
+    match (userInput):
         case "1":
             fileText = Read_FileText(textDir, ARMED_CONFLICTS_TXT)
 
@@ -67,27 +76,30 @@ def main() -> None:
     fileChunkato = TextChunking.ChunkaTesto(fileText, overlap=15)
 
     GetRisultatoChunking(fileChunkato)
-    
-    embedder: Embedding = Embedding()
-    textEmbedding = embedder.Embedda(fileChunkato)
-  
-    
-    print("\n\n\n--- Ricerca Semantica ---")
-    query_utente = input("Inserisci una frase per cercare nei chunk: ")
-    userEmb = embedder.Embedda(query_utente)
 
-    first=True
-    maxSimiliraty=0
-    chunkSimilarity=""
+    embedder: Embedding = Embedding()
+    textEmbedding = embedder.EmbeddaList(fileChunkato)
+
+
+    print("\n\n\n--- Ricerca Semantica ---")
+    inputUtente: str = input("Inserisci una frase per cercare nei chunk: ")
+    userEmb: Tensor = embedder.EmbeddaText(inputUtente)
+
+    primaRicerca: bool = True
+    maxSimiliraty: Tensor = torch.tensor(0)
+    chunkSimile: str = ""
+    numeroChunk: int = 0
     for i in range(len(textEmbedding)) :
-        
-        similarity = SemanticSimilarities.Semanta(userEmb,textEmbedding[i])
-        if first or similarity>maxSimiliraty:
-            maxSimiliraty=similarity
-            chunkSimilarity=fileChunkato[i]
-            first = False
-    
-    print(chunkSimilarity)
-    
+        similarity: Tensor = SemanticSimilarities.Semanta(userEmb,textEmbedding[i])
+        if primaRicerca or similarity > maxSimiliraty:
+            maxSimiliraty = similarity
+            chunkSimile = fileChunkato[i]
+            numeroChunk = i
+            primaRicerca = False
+
+    print("\n\nINFORMAZIONI:")
+    print(f"Il chunk più simile al messaggio dell'utente è il numero {numeroChunk}")
+    GetRisultatoSemantico(chunkSimile)
+
 if __name__ == "__main__":
-    main()  
+    main()
